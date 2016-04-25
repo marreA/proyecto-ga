@@ -1,0 +1,29 @@
+{
+  "name": "proyecto_pl",
+  "version": "1.0.0",
+  "description": "Desarrollo del proyecto de la asignatura de Procesadores de Lenguajes de la ULL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ULL-ESIT-GRADOII-PL/proyecto-ga.git"
+  },
+  "keywords": [
+    "pegs",
+    "js",
+    "html",
+    "css",
+    "sass",
+    "nodejs",
+    "mongodb",
+    "mongoose"
+  ],
+  "author": "Alejandro Marrero Díaz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-ESIT-GRADOII-PL/proyecto-ga/issues"
+  },
+  "homepage": "https://github.com/ULL-ESIT-GRADOII-PL/proyecto-ga#readme"
+}
