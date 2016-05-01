@@ -6,28 +6,27 @@ body {
 
 body {
   font: 100% Helvetica, sans-serif;
-  background-color: #6ADDFF; }
-
-.pacifico {
-  font-family: 'Pacifico', cursive; }
+  background-color: #689F38; }
 
 h1 {
   text-align: center;
   font-size: 50px;
   margin-top: inherit;
-  font-family: 'Pacifico';
-  color: #00627F;
-  padding: 50px;
+  font-family: "Pacifico", cursive;
+  color: #DCEDC8;
+  padding-top: 10px;
   margin-top: 50px; }
 
-.titulo_practica img {
-  width: 50px;
-  height: 50px;
-  float: right; }
+h2 {
+  text-align: center;
+  font-size: 25px;
+  font-family: "Pacifico", cursive;
+  color: #DCEDC8;
+  padding: 10px; }
 
 .contenido {
   position: relative;
-  left: 35%;
+  left: 30%;
   text-align: center; }
 
 table .center {
@@ -43,16 +42,8 @@ table tr {
   text-align: center; }
 table th {
   text-align: center;
-  font-family: 'Pacifico';
+  font-family: "Pacifico", cursive;
   font-size: 18px;
-  color: #00627F; }
-
-.output tr:nth-child(odd) {
-  background-color: #eee; }
-.output tr:nth-child(even) {
-  background-color: #00FF66; }
-
-.error td {
-  background-color: red; }
+  color: #DCEDC8; }
 
 /*# sourceMappingURL=main.css.map */

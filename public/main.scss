@@ -1,45 +1,45 @@
 @import 'reset';
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
-$primario : #6ADDFF;
-$acentuado: #00C5FF;
-$oscuro: #00627F;
+$dark_primary : #689F38;
+$primary: #8BC34A;
+$light_primary: #DCEDC8;
+$text: #212121;
+$accent_color: #4CAF50;
+$secondary_text: #727272;
+$font:  'Pacifico', cursive;
 
 body {
   font: 100% Helvetica, sans-serif;
-  background-color: #6ADDFF;
+  background-color: $dark_primary;
 }
 
-.pacifico {
-	font-family: 'Pacifico', cursive;
-}
-
-h1            {
+h1           {
 	text-align: center;
 	font-size: 50px;
 	margin-top: inherit;
-	font-family: 'Pacifico';
-	color: #00627F;
-	padding: 50px;
+	font-family: $font;
+	color: $light_primary;
+	padding-top: 10px;
 	margin-top: 50px;
  }
 
-.titulo_practica {
-	img {
-		width: 50px;
-		height: 50px;
-		float: right;
-	}
+h2 {
+	text-align: center;
+	font-size: 25px;
+	font-family: $font;
+	color: $light_primary;
+	padding: 10px;
 }
 
 .contenido {
 	position: relative;
-	left: 35%;
+	left: 30%;
 	text-align: center;
 }
 table {
 	.center {
-		font-weight: bold;;
+		font-weight: bold;
 		color: black;
 		text-align: center;
 		margin-left: 90px;
@@ -53,15 +53,8 @@ table {
 		}
 		th {
 			text-align: center;
-			font-family: 'Pacifico';
+			font-family:  $font;
 			font-size: 18px;
-			color: #00627F;
+			color: $light_primary;
 		}
 }
-
-.output {
-	tr:nth-child(odd)    { background-color:#eee; }
-	tr:nth-child(even)   { background-color:#00FF66; }
-}
-
-.error td{ background-color: red; }
