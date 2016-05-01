@@ -1,26 +1,13 @@
 @import 'reset';
 @import url(https://fonts.googleapis.com/css?family=Pacifico);
 
+$primario : #6ADDFF;
+$acentuado: #00C5FF;
+$oscuro: #00627F;
+
 body {
   font: 100% Helvetica, sans-serif;
   background-color: #6ADDFF;
-}
-
-
-.colorPrimario {
-	color: #6ADDFF;
-}
-
-.colorAcentuado {
-	color: #00C5FF;
-}
-
-.colorOscuro {
-	color: #00627F;
-}
-
-.marginTop {
-	margin-top: 50px;
 }
 
 .pacifico {

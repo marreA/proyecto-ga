@@ -26,3 +26,4 @@ app.get('/parser', (req,resp) =>{
 
 app.listen(port,ip, () =>{
    console.log(`App listening at ${addr}`);
+});
