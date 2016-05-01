@@ -19,5 +19,10 @@ app.get('/', (request, response) => {
   response.render('index', {title : 'Proyecto Procesadores de Lenguajes'});
 });
 
+//	Definimos la ruta para el parser
+app.get('/parser', (req,resp) =>{
+	resp.send({"tree" : parser(req.query.input)});
+});
+
 app.listen(port,ip, () =>{
    console.log(`App listening at ${addr}`);
