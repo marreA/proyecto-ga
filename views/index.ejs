@@ -6,5 +6,37 @@
 		<h2>PEGJS</h2>
 	</div>
 	<div class="contenido">
+		<table class="center" id="input">
+	 <tr><th>Introduzca la expresión a parsear</th></tr>
+	 <tr><th>Arrastre un fichero con la entrada hasta la zona de entrada</th></tr>
+	 <tr>
+		 <th>
+			 <textarea class = "drop_zone" autofocus="" cols = "80" rows = "5" id="original"></textarea>
+		 </th>
+		 <th>
+			 <button type="button" id="parse"> Parsear</button>
+		 </th>
+	 </tr>
+	 <tr>
+	 </tr>
+	 <tr>
+		 <th>
+				 Cargar archivo:
+				 <input type="file" class="inputfile" />
+		 </th>
+	 </tr>
+	 <tr>
+		 <th id="stored">
+			 <label for="Title">Introduzca el nombre del fichero: </label>
+			 <input id="Title" type="text" pattern="/^[^0-9]\w+\.csv$/"></input>
+			 <input id="save" type="submit"></input>
+		 </th>
+	 </tr>
+	 <tr>
+		 <th>
+			 <div id="buttons"></div>
+		 </th>
+	 </tr>
+ </table>
 	</div>
 </div>
