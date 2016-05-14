@@ -2,8 +2,9 @@
 
 (() =>{
    "use strict";
-   const LoopType = (type,children) => {
+   const LoopType = (type, condition,children) => {
        AbstractType.call(this, type, children);
+       this.condition = condition;
    };
    LoopType.prototype = Object.create(AbstractType.prototype);
    LoopType.prototype.constructor = LoopType;
