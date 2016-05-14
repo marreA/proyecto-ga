@@ -1,4 +1,7 @@
-
+/*
+ * PEGjs for a "Pl-0" like language
+ */
+ 
 {
   var tree = function(f, r) {
     if (r.length > 0) {
