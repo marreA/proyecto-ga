@@ -31,7 +31,7 @@ program = b:block { /* Declaración de la estructura principal que contendrá a 
   return b;
 }
 
-block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:st { 
+block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:statement { 
 
   let constants = cD? cD : []; /* constanst puede estar vacía si no se realiza declaración de las mismas */
   let variables = vD? vD : []; /* variables puede estar vacía si no se realiza declaración de las mismas */ 
@@ -45,11 +45,11 @@ block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* 
   };
 }
 
-constantDeclaration = CONST id:ID ASSIGN number:NUMBER rest:(COMMA ID ASSIGN NUMBER)* SEMICOLON { /* const ejemplo = 1, ejemplo = 2; */
+constantDeclaration = CONST id:ID ASSIGN nu:NUMBER rest:(COMMA ID ASSIGN NUMBER)* SEMICOLON { /* const ejemplo1 = 1, ejemplo2 = 2; */
   
-  let declaration = rest.map( ([_, id, __, number]) => [id.value, number.value] ); /* Ignoramos la coma y el igual, ya que no nos interesa */
+  let declaration = rest.map( ([_, id, __, nu]) => [id.value, nu.value] ); /* Ignoramos la coma y el igual, ya que no nos interesa */
   
-  return [[id.value, number.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
+  return [[id.value, nu.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
 }
 
 variableDeclaration = VAR id:ID rest:(COMMA ID)* SEMICOLON { 
@@ -72,27 +72,32 @@ functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* 
   }, b);
 }
 
-st     = i:ID ASSIGN e:cond
-            { return {type: '=', left: i, right: e}; }
-       / IF e:cond THEN st:st ELSE sf:st
-           {
-             return {
-               type: 'IFELSE',
-               c:  e,
-               st: st,
-               sf: sf,
-             };
-           }
-       / IF e:cond THEN st:st
-           {
-             return {
-               type: 'IF',
-               c:  e,
-               st: st
-             };
-           }
+statement = i:ID ASSIGN e:condition { return {type: '=', left: i, right: e}; } /* Sentencias */
+       
+  / IF e:condition THEN st:statement ELSE sf:statement { /* Sentencias IF-THEN-ELSE */
+      return {
+          type: 'IFELSE',
+          cond:  e,
+          st: st,
+          sf: sf,
+      };
+    }
+  / IF e:condition THEN st:statement { /* Sentencias IF-THEN */
+      return {
+          type: 'IF',
+          cond:  e,
+          st: st
+      };
+    }
+  / WHILE e:condition DO st:statement { /* Bucle WHILE */
+      return {
+          type: 'WHILE',
+          cond: e,
+          st: st
+      };
+    }
 					 
-cond	 =  lft:exp op:COND rgth:exp { return { type: op,
+condition	 =  lft:exp op:COND rgth:exp { return { type: op,
 																							left: lft,
 																							right: rght
 																						}}
@@ -106,7 +111,7 @@ factor = NUMBER
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 
-_ = $[ \t\n\r]*
+_           = $[ \t\n\r]*
 COND		    =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; }
 ASSIGN      = _ op:'=' _  { return op; }
 ADD         = _ op:[+-] _ { return op; }
@@ -119,6 +124,8 @@ FUNCTION    = _ "function" _
 IF          = _ "if" _
 THEN        = _ "then" _
 ELSE        = _ "else" _
+WHILE       = _ "while" _
+DO          = _ "do" _
 SEMICOLON   = _";"_
 COMMA       = _","_
 ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
