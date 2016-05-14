@@ -31,16 +31,16 @@ program = b:block { /* Declaración de la estructura principal que contendrá a 
   return b;
 }
 
-block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:st { 
+block = cD:constantDeclaration? st:st { /*vD:variableDeclaration? fD:functionDeclaration* */ 
 
   let constants = cD? cD : []; /* constanst puede estar vacía si no se realiza declaración de las mismas */
-  let variables = vD? vD : []; /* variables puede estar vacía si no se realiza declaración de las mismas */
+  /* let variables = vD? vD : []; */ /* variables puede estar vacía si no se realiza declaración de las mismas */ 
               
   return { /* Definición del valor semántico */
       type: 'BLOCK', 
       constants: constants, 
-      variables: variables, 
-      functions: fD, 
+      /*variables: variables,*/ 
+      /*functions: fD,*/ 
       main: st
   };
 }
@@ -84,21 +84,20 @@ factor = NUMBER
        / ID
        / LEFTPAR t:exp RIGHTPAR   { return t; }
 
+/* -----------> DECLARACIÓN DE LOS TOKENS */
+
 _ = $[ \t\n\r]*
-COND		 =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; }
-ASSIGN   = _ op:'=' _  { return op; }
-ADD      = _ op:[+-] _ { return op; }
-MUL      = _ op:[*/] _ { return op; }
-LEFTPAR  = _"("_
-RIGHTPAR = _")"_
-IF       = _ "if" _
-THEN     = _ "then" _
-ELSE     = _ "else" _
-ID       = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _
-            {
-              return { type: 'ID', value: id };
-            }
-NUMBER   = _ digits:$[0-9]+ _
-            {
-              return { type: 'NUM', value: parseInt(digits, 10) };
-            }
+COND		    =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; }
+ASSIGN      = _ op:'=' _  { return op; }
+ADD         = _ op:[+-] _ { return op; }
+MUL         = _ op:[*/] _ { return op; }
+LEFTPAR     = _"("_
+RIGHTPAR    = _")"_
+CONST       = _ "const" _
+IF          = _ "if" _
+THEN        = _ "then" _
+ELSE        = _ "else" _
+SEMICOLON   = _";"_
+COMMA       = _","_
+ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
+NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
