@@ -108,14 +108,15 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
     }
   /assign
 
-assign = i:ID ASSIGN e:cond { /* Asignaciones, ejemplo = 5 */
-      return {
-          type: '=', 
-          left: i, 
-          right: e
-        }; 
-      }
-    / condition
+assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
+            
+    return {
+        type: '=', 
+        left: i, 
+        right: e
+    }; 
+}
+/ condition
 					 
 condition	 =  lft:exp op:COND rgth:exp { return { type: op,
 																							left: lft,
@@ -127,8 +128,20 @@ exp    = t:term   r:(ADD term)*   { return tree(t,r); }
 term   = f:factor r:(MUL factor)* { return tree(f,r); }
 
 factor = NUMBER
+       / name:ID LEFTPAR a:assign? rest:(COMMA assign)* RIGHTPAR { /* Llamadas a funciones */
+         
+          let array_arg = [];
+          if (a)
+            array_arg.push(a); /* Incluimos el primer argumento en el array */
+           
+          return { 
+              type: 'CALL',
+              func: f,
+              arguments: array_arg.concat(rest.map(([_, exp]) => exp)) /* Concatenamos en el array con el resto de argumentos */
+          };
+         }
        / ID
-       / LEFTPAR t:exp RIGHTPAR   { return t; }
+       / LEFTPAR t:assign RIGHTPAR   { return t; }
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 
