@@ -1,3 +1,4 @@
-const ejemplo = 8, string = 'ejemplo';
+const ejemplo = 8, nuevo = 12;
+var variable;
 
 if false then a = 5 

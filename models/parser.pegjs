@@ -59,6 +59,19 @@ variableDeclaration = VAR id:ID rest:(COMMA ID)* SEMICOLON {
   return [id.value].concat(declaration) /* El valor semántico será un array con los nombres de las variables declaradas */
 }
 
+
+functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR SEMICOLON b:block SEMICOLON { /* Evitamos ejemplo(, parametro) */
+  
+  let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
+  params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
+        
+  return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
+      type: 'FUNCTION',
+      name: id,
+      params: params, /* Array con los nombres de los parámetros */
+  }, b);
+}
+
 st     = i:ID ASSIGN e:cond
             { return {type: '=', left: i, right: e}; }
        / IF e:cond THEN st:st ELSE sf:st
