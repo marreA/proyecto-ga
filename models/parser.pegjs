@@ -73,7 +73,16 @@ functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* 
   }, b);
 }
 
-statement = i:ID ASSIGN e:condition { return {type: '=', left: i, right: e}; } /* Sentencias */
+statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sentencias, aceptando compuestas entre {} */
+              
+              let array_st = [];
+              if (s1) /* Si existe la primera sentencia */
+                  array_st.push(s1); /* Lo introducimos en el array de sentencias */
+              return {
+                  type: 'COMPOUND', 
+                  children: array_st.concat(rest.map( ([_, statement]) => statement )) /* Introducimos el resto de sentencias en el array */
+               };
+            }
        
   / IF e:assign THEN st:statement ELSE sf:statement { /* Sentencias IF-THEN-ELSE */
       return {
@@ -99,7 +108,7 @@ statement = i:ID ASSIGN e:condition { return {type: '=', left: i, right: e}; } /
     }
   /assign
 
-assign = i:ID ASSIGN e:cond { /* Asignaciones */
+assign = i:ID ASSIGN e:cond { /* Asignaciones, ejemplo = 5 */
       return {
           type: '=', 
           left: i, 
@@ -130,6 +139,8 @@ ADD         = _ op:[+-] _ { return op; }
 MUL         = _ op:[*/] _ { return op; }
 LEFTPAR     = _"("_
 RIGHTPAR    = _")"_
+CL          = _"{"_
+CR          = _"}"_
 CONST       = _ "const" _
 VAR         = _ "var" _
 FUNCTION    = _ "function" _
