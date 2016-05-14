@@ -63,7 +63,8 @@ variableDeclaration = VAR id:ID rest:(COMMA ID)* SEMICOLON {
 functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR SEMICOLON b:block SEMICOLON { /* Evitamos ejemplo(, parametro) */
   
   let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
-  params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
+  if(param1) /* Si existe el primer parámetro */
+    params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
         
   return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
       type: 'FUNCTION',
@@ -74,7 +75,7 @@ functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* 
 
 statement = i:ID ASSIGN e:condition { return {type: '=', left: i, right: e}; } /* Sentencias */
        
-  / IF e:condition THEN st:statement ELSE sf:statement { /* Sentencias IF-THEN-ELSE */
+  / IF e:assign THEN st:statement ELSE sf:statement { /* Sentencias IF-THEN-ELSE */
       return {
           type: 'IFELSE',
           cond:  e,
@@ -82,26 +83,37 @@ statement = i:ID ASSIGN e:condition { return {type: '=', left: i, right: e}; } /
           sf: sf,
       };
     }
-  / IF e:condition THEN st:statement { /* Sentencias IF-THEN */
+  / IF e:assign THEN st:statement { /* Sentencias IF-THEN */
       return {
           type: 'IF',
           cond:  e,
           st: st
       };
     }
-  / WHILE e:condition DO st:statement { /* Bucle WHILE */
+  / WHILE e:assign DO st:statement { /* Bucle WHILE */
       return {
           type: 'WHILE',
           cond: e,
           st: st
       };
     }
+  /assign
+
+assign = i:ID ASSIGN e:cond { /* Asignaciones */
+      return {
+          type: '=', 
+          left: i, 
+          right: e
+        }; 
+      }
+    / condition
 					 
 condition	 =  lft:exp op:COND rgth:exp { return { type: op,
 																							left: lft,
 																							right: rght
 																						}}
 			  /	exp
+
 exp    = t:term   r:(ADD term)*   { return tree(t,r); }
 term   = f:factor r:(MUL factor)* { return tree(f,r); }
 
