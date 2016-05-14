@@ -1,7 +1,8 @@
 /*
  * PEGjs for a "Pl-0" like language
- */
- 
+ * Pl-0 IMPLEMENTATION BY WIKIPEDIA
+*/
+
 {
   var tree = function(f, r) {
     if (r.length > 0) {
@@ -17,6 +18,31 @@
     }
     return result;
   }
+}
+
+program = b:block { /* Declaración de la estructura principal que contendrá a todas las demás */
+
+  b.name = { /* Atributo name que contiene el tipo */
+    type: 'ID', 
+    value: "$main"
+  }; 
+  b.params = []; /* Array que contien los parámetros del program */
+                  
+  return b;
+}
+
+block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:st { 
+
+  let constants = cD? cD : []; /* constanst puede estar vacía si no se realiza declaración de las mismas */
+  let variables = vD? vD : []; /* variables puede estar vacía si no se realiza declaración de las mismas */
+              
+  return { /* Definición del valor semántico */
+      type: 'BLOCK', 
+      constants: constants, 
+      variables: variables, 
+      functions: fD, 
+      main: st
+  };
 }
 
 st     = i:ID ASSIGN e:cond
