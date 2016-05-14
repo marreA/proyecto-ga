@@ -55,6 +55,7 @@ ADD      = _ op:[+-] _ { return op; }
 MUL      = _ op:[*/] _ { return op; }
 LEFTPAR  = _"("_
 RIGHTPAR = _")"_
+WHILE    = _ "while" _
 IF       = _ "if" _
 THEN     = _ "then" _
 ELSE     = _ "else" _
