@@ -7,6 +7,6 @@ end
 
 desc "Compile parser.pegjs node version"
 task :node do
-  sh "pegjs models/parser.pegjs models/parser_node.js"
+  sh "pegjs models/parser.pegjs models/parsernode.js"
 end
 

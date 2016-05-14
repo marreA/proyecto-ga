@@ -3,11 +3,11 @@
 const process = require('process');
 /* See gist: https://gist.github.com/branneman/8048520 
  * Better local require() paths for Node.js */
-process.env.NODE_PATH += ":"+__dirname+"/lib/";
+process.env.NODE_PATH += ":"+__dirname+"/models/";
 require('module').Module._initPaths();
 var util = require('util');
 var fs = require('fs');
-var PEG = require("parse_node.js");
+var PEG = require("parser_node.js");
 var fileName = process.argv[2] || 'tests/input5.pl0';
 
 const lineNumbers = (input) => {
