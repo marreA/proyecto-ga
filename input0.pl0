@@ -1,1 +1,3 @@
+const ejemplo = 8, string = 'ejemplo';
+
 if false then a = 5 

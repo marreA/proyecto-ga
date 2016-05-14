@@ -31,25 +31,32 @@ program = b:block { /* Declaración de la estructura principal que contendrá a 
   return b;
 }
 
-block = cD:constantDeclaration? st:st { /*vD:variableDeclaration? fD:functionDeclaration* */ 
+block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:st { 
 
   let constants = cD? cD : []; /* constanst puede estar vacía si no se realiza declaración de las mismas */
-  /* let variables = vD? vD : []; */ /* variables puede estar vacía si no se realiza declaración de las mismas */ 
+  let variables = vD? vD : []; /* variables puede estar vacía si no se realiza declaración de las mismas */ 
               
   return { /* Definición del valor semántico */
       type: 'BLOCK', 
       constants: constants, 
-      /*variables: variables,*/ 
-      /*functions: fD,*/ 
+      variables: variables,
+      functions: fD,
       main: st
   };
 }
 
 constantDeclaration = CONST id:ID ASSIGN number:NUMBER rest:(COMMA ID ASSIGN NUMBER)* SEMICOLON { /* const ejemplo = 1, ejemplo = 2; */
   
-  let declaration = rest.map( ([_, id, __, nu]) => [id.value, nu.value] ); /* Ignoramos la coma y el igual, ya que no nos interesa */
+  let declaration = rest.map( ([_, id, __, number]) => [id.value, number.value] ); /* Ignoramos la coma y el igual, ya que no nos interesa */
   
   return [[id.value, number.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
+}
+
+variableDeclaration = VAR id:ID rest:(COMMA ID)* SEMICOLON { 
+  
+  let declaration = rest.map( ([_, id]) => id.value ); /* Ignoramos la coma */
+                      
+  return [id.value].concat(declaration) /* El valor semántico será un array con los nombres de las variables declaradas */
 }
 
 st     = i:ID ASSIGN e:cond
