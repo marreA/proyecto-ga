@@ -8,5 +8,5 @@
     };
     Assign.prototype = Object.create(AbstractType.prototype);
     Assign.prototype.constructor = Assign;
-    module.exports(Assign);
+    module.exports = Assign;
 })();

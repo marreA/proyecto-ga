@@ -5,5 +5,5 @@
     };
     CompoundType.prototype = Object.create(AbstractType.prototype);
     CompoundType.prototype.constructor = CompoundType;
-    module.exports(CompoundType);
+    module.exports = CompoundType;
 })();

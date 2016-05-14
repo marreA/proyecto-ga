@@ -7,5 +7,5 @@
    };
    IfStatement.prototype = Object.create(AbstractType.prototype);
    IfStatement.prototype.constructor = IfStatement;
-   module.exports(IfStatement);
+   module.exports = IfStatement;
 });

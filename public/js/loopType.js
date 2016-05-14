@@ -8,5 +8,5 @@
    LoopType.prototype = Object.create(AbstractType.prototype);
    LoopType.prototype.constructor = LoopType;
    
-   module.exports(LoopType);
+   module.exports = LoopType;
 })();
