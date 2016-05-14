@@ -45,6 +45,13 @@ block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* 
   };
 }
 
+constantDeclaration = CONST id:ID ASSIGN number:NUMBER rest:(COMMA ID ASSIGN NUMBER)* SEMICOLON { /* const ejemplo = 1, ejemplo = 2; */
+  
+  let declaration = rest.map( ([_, id, __, nu]) => [id.value, nu.value] ); /* Ignoramos la coma y el igual, ya que no nos interesa */
+  
+  return [[id.value, number.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
+}
+
 st     = i:ID ASSIGN e:cond
             { return {type: '=', left: i, right: e}; }
        / IF e:cond THEN st:st ELSE sf:st
