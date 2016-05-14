@@ -8,4 +8,4 @@
    };
    Condition.prototype = Object.create(AbstractType.prototype);
    Condition.prototype.constructor = Condition;
-});
+})();
