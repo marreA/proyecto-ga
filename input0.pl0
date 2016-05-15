@@ -1,4 +1,7 @@
-const ejemplo = 5;
+const ejemplo = 6;
 var variable;
 
-if false then a = 5
+for(i = 0; i < 2; i++) {
+	
+	i = i + 1
+}

@@ -88,25 +88,35 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
       return {
           type: 'IFELSE',
           cond:  e,
-          st: st,
-          sf: sf,
+          children_if: st,
+          children_else: sf,
       };
     }
   / IF e:assign THEN st:statement { /* Sentencias IF-THEN */
       return {
           type: 'IF',
           cond:  e,
-          st: st
+          children: st
       };
     }
   / WHILE e:assign DO st:statement { /* Bucle WHILE */
       return {
           type: 'WHILE',
           cond: e,
-          st: st
+          children: st
       };
     }
-  /assign
+  / FOR LEFTPAR vc:assign SEMICOLON cond:condition SEMICOLON id3:ID op1:ADD ADD RIGHTPAR st:statement { /* Bucle FOR */
+
+      return {
+          type: 'FOR',
+          variable: vc.left,
+          condition: cond.type,
+          increment: op1,
+          children: st
+      };
+    }
+  / assign
 
 assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
             
@@ -166,6 +176,7 @@ THEN              = _ "then" _
 ELSE              = _ "else" _
 WHILE             = _ "while" _
 DO                = _ "do" _
+FOR               = _ "for" _
 SEMICOLON         = _";"_
 COMMA             = _","_
 ID "identifier"   = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
