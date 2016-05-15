@@ -1,3 +1,4 @@
 const ejemplo = 5;
-
 var variable;
+
+if false then a = 5

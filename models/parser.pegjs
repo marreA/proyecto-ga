@@ -26,7 +26,7 @@ program = b:block { /* Declaración de la estructura principal que contendrá a 
     type: 'ID', 
     value: "$main"
   }; 
-  b.params = []; /* Array que contien los parámetros del program */
+  b.params = []; /* Array que contiene los parámetros del programa */
                   
   return b;
 }
@@ -118,11 +118,15 @@ assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
 }
 / condition
 					 
-condition	 =  lft:exp op:COND rgth:exp { return { type: op,
-																							left: lft,
-																							right: rght
-																						}}
-			  /	exp
+condition	= l:exp op:COND r:exp { /* Condiciones */
+
+    return { 
+        type: op, /* Como tipo usamos el token COND usado en la comparación */
+				left: l,
+				right: r
+		};
+}
+/	exp
 
 exp    = t:term   r:(ADD term)*   { return tree(t,r); }
 term   = f:factor r:(MUL factor)* { return tree(f,r); }
@@ -146,7 +150,7 @@ factor = NUMBER
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 
 _           = $[ \t\n\r]*
-COND		    =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; }
+COND		    =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; } /* PEGjs descarta el resto de operadores si se cumple uno, por lo que >= antes que > */
 ASSIGN      = _ op:'=' _  { return op; }
 ADD         = _ op:[+-] _ { return op; }
 MUL         = _ op:[*/] _ { return op; }

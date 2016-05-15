@@ -42,7 +42,7 @@ module.exports = (function() {
             type: 'ID', 
             value: "$main"
           }; 
-          b.params = []; /* Array que contien los parámetros del program */
+          b.params = []; /* Array que contiene los parámetros del programa */
                           
           return b;
         },
@@ -123,10 +123,14 @@ module.exports = (function() {
                 right: e
             }; 
         },
-        peg$c10 = function(lft, op, rgth) { return { type: op,
-        																							left: lft,
-        																							right: rght
-        																						}},
+        peg$c10 = function(l, op, r) { /* Condiciones */
+
+            return { 
+                type: op, /* Como tipo usamos el token COND usado en la comparación */
+        				left: l,
+        				right: r
+        		};
+        },
         peg$c11 = function(t, r) { return tree(t,r); },
         peg$c12 = function(f, r) { return tree(f,r); },
         peg$c13 = function(name, a, rest) { /* Llamadas a funciones */
@@ -421,9 +425,6 @@ module.exports = (function() {
           }
           if (s3 !== peg$FAILED) {
             s4 = peg$parsestatement();
-            if (s4 === peg$FAILED) {
-              s4 = null;
-            }
             if (s4 !== peg$FAILED) {
               peg$savedPos = s0;
               s1 = peg$c1(s1, s2, s3, s4);

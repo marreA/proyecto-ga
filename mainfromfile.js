@@ -7,7 +7,7 @@ process.env.NODE_PATH += ":"+__dirname+"/models/";
 require('module').Module._initPaths();
 var util = require('util');
 var fs = require('fs');
-var PEG = require("parser_node.js");
+var PEG = require("parsernode.js");
 var fileName = process.argv[2] || 'tests/input5.pl0';
 
 const lineNumbers = (input) => {
