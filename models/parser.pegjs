@@ -116,6 +116,13 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
           children: st
       };
     }
+  / RETURN a:assign? { /* Se permite únicamente el return */
+      
+      return { 
+          type: 'RETURN', 
+          children: a? [a] : [] 
+        };
+    }
   / assign
 
 assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
@@ -177,6 +184,7 @@ ELSE              = _ "else" _
 WHILE             = _ "while" _
 DO                = _ "do" _
 FOR               = _ "for" _
+RETURN            = _ "return" _
 SEMICOLON         = _";"_
 COMMA             = _","_
 ID "identifier"   = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
