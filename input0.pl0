@@ -1,5 +1,5 @@
 const ejemplo = 6;
-var variable;
+var array = 3;
 
 for(i = 0; i < 2; i++) {
 	
