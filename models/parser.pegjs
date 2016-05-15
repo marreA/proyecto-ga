@@ -163,6 +163,12 @@ factor = NUMBER
          }
        / ID
        / LEFTPAR t:assign RIGHTPAR   { return t; }
+       / LEFTSQBR n:NUMBER RIGHTSQBR { 
+            return {
+                type: 'ARRAY', 
+                size: n
+            };
+         }
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 
