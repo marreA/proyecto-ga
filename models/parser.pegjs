@@ -149,24 +149,24 @@ factor = NUMBER
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 
-_           = $[ \t\n\r]*
-COND		    =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; } /* PEGjs descarta el resto de operadores si se cumple uno, por lo que >= antes que > */
-ASSIGN      = _ op:'=' _  { return op; }
-ADD         = _ op:[+-] _ { return op; }
-MUL         = _ op:[*/] _ { return op; }
-LEFTPAR     = _"("_
-RIGHTPAR    = _")"_
-CL          = _"{"_
-CR          = _"}"_
-CONST       = _ "const" _
-VAR         = _ "var" _
-FUNCTION    = _ "function" _
-IF          = _ "if" _
-THEN        = _ "then" _
-ELSE        = _ "else" _
-WHILE       = _ "while" _
-DO          = _ "do" _
-SEMICOLON   = _";"_
-COMMA       = _","_
-ID          = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
-NUMBER      = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
+_ "( \t\n\r)"     = $[ \t\n\r]*
+COND "condition"  =	_ op:("=="/"!="/"<="/">="/"<"/">") _ { return op; } /* PEGjs descarta el resto de operadores si se cumple uno, >= y > */
+ASSIGN            = _ op:'=' _  { return op; }
+ADD "operator"    = _ op:[+-] _ { return op; }
+MUL "operator"    = _ op:[*/] _ { return op; }
+LEFTPAR           = _"("_
+RIGHTPAR          = _")"_
+CL                = _"{"_
+CR                = _"}"_
+CONST             = _ "const" _
+VAR               = _ "var" _
+FUNCTION          = _ "function" _
+IF                = _ "if" _
+THEN              = _ "then" _
+ELSE              = _ "else" _
+WHILE             = _ "while" _
+DO                = _ "do" _
+SEMICOLON         = _";"_
+COMMA             = _","_
+ID "identifier"   = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
+NUMBER "number"   = _ digits:$[0-9]+ _ { return { type: 'NUM', value: parseInt(digits, 10) }; }
