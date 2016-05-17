@@ -22,6 +22,15 @@
         block.symbolTable = {
             father: f
         };
+        //  Cada uno de los bloque tiene a su vez variables, constantes y funciones
+        //  por lo que tenemos que incluirlas dentro de la tabla de símbolos
+        
+        //  Añadimos cada variable dentro de la tabla de símbolos
+        block.variables.forEach((variable) => insertSymbol(variable, block.symbolTable));
+        //  Añadimos cada constante dentro de la tabla de símbolos
+        block.constants.forEach((constant) => insertSymbol(constant, block.symbolTable));
+        //  Añadimos el identificador de cada función dentro de la tabla de símbolos
+        block.functions.forEach((func) => insertSymbol(func.name.value, block.symbolTable));
     };
 
     module.exports = semantic;
