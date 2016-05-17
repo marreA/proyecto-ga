@@ -17,9 +17,12 @@
     };
     
     //  Función para construir la tabla de símbolos
-    let makeTable = (block, f) => {
+    let buildTable = (block, f) => {
+        //  Definimos cual es el padre de cada uno de los bloques dentro de su tabla de símbolos
+        block.symbolTable = {
+            father: f
+        };
     };
 
-    
     module.exports = semantic;
 })();
