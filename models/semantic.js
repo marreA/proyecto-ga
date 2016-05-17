@@ -38,7 +38,15 @@
     //  Creamos el método que nos permite insertar un símbolo dentro de la tabla de símbolos
     //  Recibe el símbolo en el argumento value y la tabla de símbolos en el segundo argumento
     let insertSymbol = (value, symbolTable) => {
-        
+        if (value instanceof Array) {
+            if (symbolTable[value[0]])
+                console.error("Error: " + value[0] + " declared yet.");
+            symbolTable[value[0]] = value[1];
+        } else {
+            if (symbolTable[value])
+                console.error("Error: " + value + " declared yet.");
+            symbolTable[value] = 'not defined';
+        }
     };
     
     module.exports = semantic;
