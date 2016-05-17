@@ -15,5 +15,11 @@
         //  El árbol es un objeto que tiene un atributo funciones y para cada una de ellas construimos su tabla de símbolos
         tree.functions.forEach((func) => eachBlockPre(func, action, tree.symbolTable));
     };
+    
+    //  Función para construir la tabla de símbolos
+    let makeTable = (block, f) => {
+    };
+
+    
     module.exports = semantic;
 })();
