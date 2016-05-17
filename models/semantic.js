@@ -1,11 +1,13 @@
 
 (() => {
+    
     //   La fase de análisis semántico recibe el árbol AST de la fase sintáctica
     let semantic = (tree) => {
         let emptyTable = {}; //  Creamos una tabla de símbolos vacía
         //  Hacemos un recorrido en preorden para construir la tabla
         eachBlockPre(tree, buildTable, emptyTable);
     };
+    
     //  Recorrido en preorden
     //  Recibe un nodo del árbol
     //  La acción a realizar
@@ -32,6 +34,12 @@
         //  Añadimos el identificador de cada función dentro de la tabla de símbolos
         block.functions.forEach((func) => insertSymbol(func.name.value, block.symbolTable));
     };
-
+    
+    //  Creamos el método que nos permite insertar un símbolo dentro de la tabla de símbolos
+    //  Recibe el símbolo en el argumento value y la tabla de símbolos en el segundo argumento
+    let insertSymbol = (value, symbolTable) => {
+        
+    };
+    
     module.exports = semantic;
 })();
