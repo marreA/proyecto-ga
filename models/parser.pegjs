@@ -62,15 +62,15 @@ variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? fact
   return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
 }
 
-functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR CL b:block ret:(RETURN id:ID? SEMICOLON)? CR SEMICOLON { /* Evitamos ejemplo(, parametro) */
+functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR CL b:block ret:(RETURN id:value? SEMICOLON)? CR SEMICOLON { /* Evitamos ejemplo(, parametro) */
   
   let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
   if(param1) /* Si existe el primer parámetro */
     params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
     
   let r = undefined; /* Nos aseguramos eliminar el null */
-  if(ret.id)
-    r = ret.id
+  if(ret[1])
+    r = ret[1]
 
   return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
       type: 'FUNCTION',
@@ -177,8 +177,8 @@ factor = NUMBER
             };
          }
 
-value = ID 
-       / NUMBER
+value = NUMBER
+       / ID
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 

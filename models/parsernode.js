@@ -80,9 +80,9 @@ module.exports = (function() {
           if(param1) /* Si existe el primer parámetro */
             params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
             
-          let r = undefined;
-          if(ret.id)
-            r = ret.id
+          let r = undefined; /* Nos aseguramos eliminar el null */
+          if(ret[1])
+            r = ret[1]
 
           return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
               type: 'FUNCTION',
@@ -789,7 +789,7 @@ module.exports = (function() {
                         s10 = peg$currPos;
                         s11 = peg$parseRETURN();
                         if (s11 !== peg$FAILED) {
-                          s12 = peg$parseID();
+                          s12 = peg$parsevalue();
                           if (s12 === peg$FAILED) {
                             s12 = null;
                           }
@@ -1455,6 +1455,17 @@ module.exports = (function() {
             }
           }
         }
+      }
+
+      return s0;
+    }
+
+    function peg$parsevalue() {
+      var s0;
+
+      s0 = peg$parseNUMBER();
+      if (s0 === peg$FAILED) {
+        s0 = peg$parseID();
       }
 
       return s0;
