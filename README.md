@@ -6,10 +6,13 @@
 #### Escuela Superior de Ingeniería y Tecnología
 
 ### Plataformas y tecnologías usadas
+
 - #### NodeJS
 ![](http://dius.wordpress.dius.com.au/wp-content/uploads/sites/2/2015/06/NodeJS-Small-Blog-Feature-Image-.jpg)
+
 - #### SASS
 ![](http://michelletorres.mx/wp-content/uploads/2015/02/sass.jpg)
+
 - #### jQuery
 ![](https://brand.jquery.org/resources/jquery-mark-light.gif)
 
