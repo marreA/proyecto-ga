@@ -52,28 +52,31 @@ constantDeclaration = CONST id:ID ASSIGN nu:NUMBER rest:(COMMA ID ASSIGN NUMBER)
   return [[id.value, nu.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
 }
 
-variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? val2:factor?)* SEMICOLON {  /* Permitimos la inicialización de las variables */ 
+variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? factor?)* SEMICOLON {  /* Permitimos la inicialización de las variables */ 
   
-  var i;
   let v1 = val1? val1 : undefined; /* val1 puede estar vacía si no se realiza declaración de las mismas */
   let declaration = rest.map( ([_, id, __, val2]) => [id.value, val2] ); /* Ignoramos la coma y el igual */
   
-  for(i = 0; i < declaration.length; i++) /* eliminamos el null como valor de inicialiazión de la variable */
-    declaration[i][1] = undefined;
+  declaration.forEach( (array) => { array[1] = undefined } ); /* eliminamos el null como valor de inicialiazión de la variable */
                       
   return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
 }
 
-functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR SEMICOLON b:block SEMICOLON { /* Evitamos ejemplo(, parametro) */
+functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR CL b:block ret:(RETURN id:ID? SEMICOLON)? CR SEMICOLON { /* Evitamos ejemplo(, parametro) */
   
   let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
   if(param1) /* Si existe el primer parámetro */
     params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
-        
+    
+  let r = undefined; /* Nos aseguramos eliminar el null */
+  if(ret.id)
+    r = ret.id
+
   return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
       type: 'FUNCTION',
       name: id,
       params: params, /* Array con los nombres de los parámetros */
+      ret: r
   }, b);
 }
 
@@ -173,6 +176,9 @@ factor = NUMBER
                 size: n.value
             };
          }
+
+value = ID 
+       / NUMBER
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 

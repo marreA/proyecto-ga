@@ -67,25 +67,28 @@ module.exports = (function() {
         },
         peg$c3 = function(id, val1, rest) {  /* Permitimos la inicialización de las variables */ 
           
-          var i;
           let v1 = val1? val1 : undefined; /* val1 puede estar vacía si no se realiza declaración de las mismas */
           let declaration = rest.map( ([_, id, __, val2]) => [id.value, val2] ); /* Ignoramos la coma y el igual */
           
-          for(i = 0; i < declaration.length; i++)
-            declaration[i][1] = undefined;
+          declaration.forEach( (array) => { array[1] = undefined } ); /* eliminamos el null como valor de inicialiazión de la variable */
                               
           return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
         },
-        peg$c4 = function(id, param1, rest, b) { /* Evitamos ejemplo(, parametro) */
+        peg$c4 = function(id, param1, rest, b, ret) { /* Evitamos ejemplo(, parametro) */
           
           let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
           if(param1) /* Si existe el primer parámetro */
             params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
-                
+            
+          let r = undefined;
+          if(ret.id)
+            r = ret.id
+
           return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
               type: 'FUNCTION',
               name: id,
               params: params, /* Array con los nombres de los parámetros */
+              ret: r
           }, b);
         },
         peg$c5 = function(s1, rest) { /* Sentencias, aceptando compuestas entre {} */
@@ -717,7 +720,7 @@ module.exports = (function() {
     }
 
     function peg$parsefunctionDeclaration() {
-      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10;
+      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13;
 
       s0 = peg$currPos;
       s1 = peg$parseFUNCTION();
@@ -779,15 +782,53 @@ module.exports = (function() {
                 if (s6 !== peg$FAILED) {
                   s7 = peg$parseRIGHTPAR();
                   if (s7 !== peg$FAILED) {
-                    s8 = peg$parseSEMICOLON();
+                    s8 = peg$parseCL();
                     if (s8 !== peg$FAILED) {
                       s9 = peg$parseblock();
                       if (s9 !== peg$FAILED) {
-                        s10 = peg$parseSEMICOLON();
+                        s10 = peg$currPos;
+                        s11 = peg$parseRETURN();
+                        if (s11 !== peg$FAILED) {
+                          s12 = peg$parseID();
+                          if (s12 === peg$FAILED) {
+                            s12 = null;
+                          }
+                          if (s12 !== peg$FAILED) {
+                            s13 = peg$parseSEMICOLON();
+                            if (s13 !== peg$FAILED) {
+                              s11 = [s11, s12, s13];
+                              s10 = s11;
+                            } else {
+                              peg$currPos = s10;
+                              s10 = peg$FAILED;
+                            }
+                          } else {
+                            peg$currPos = s10;
+                            s10 = peg$FAILED;
+                          }
+                        } else {
+                          peg$currPos = s10;
+                          s10 = peg$FAILED;
+                        }
+                        if (s10 === peg$FAILED) {
+                          s10 = null;
+                        }
                         if (s10 !== peg$FAILED) {
-                          peg$savedPos = s0;
-                          s1 = peg$c4(s2, s5, s6, s9);
-                          s0 = s1;
+                          s11 = peg$parseCR();
+                          if (s11 !== peg$FAILED) {
+                            s12 = peg$parseSEMICOLON();
+                            if (s12 !== peg$FAILED) {
+                              peg$savedPos = s0;
+                              s1 = peg$c4(s2, s5, s6, s9, s10);
+                              s0 = s1;
+                            } else {
+                              peg$currPos = s0;
+                              s0 = peg$FAILED;
+                            }
+                          } else {
+                            peg$currPos = s0;
+                            s0 = peg$FAILED;
+                          }
                         } else {
                           peg$currPos = s0;
                           s0 = peg$FAILED;
