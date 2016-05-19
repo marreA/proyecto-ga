@@ -70,7 +70,10 @@ module.exports = (function() {
           let v1 = val1? val1 : undefined; /* val1 puede estar vacía si no se realiza declaración de las mismas */
           let declaration = rest.map( ([_, id, __, val2]) => [id.value, val2] ); /* Ignoramos la coma y el igual */
           
-          declaration.forEach( (array) => { array[1] = undefined } ); /* eliminamos el null como valor de inicialiazión de la variable */
+          declaration.forEach( (array) => { /* eliminamos el null como valor de inicialiazión de la variable */
+            if(!array[1])
+              array[1] = undefined } 
+          ); 
                               
           return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
         },

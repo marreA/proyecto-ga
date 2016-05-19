@@ -52,12 +52,15 @@ constantDeclaration = CONST id:ID ASSIGN nu:NUMBER rest:(COMMA ID ASSIGN NUMBER)
   return [[id.value, nu.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
 }
 
-variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? factor?)* SEMICOLON {  /* Permitimos la inicialización de las variables */ 
+variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? val2:factor?)* SEMICOLON {  /* Permitimos la inicialización de las variables */ 
   
   let v1 = val1? val1 : undefined; /* val1 puede estar vacía si no se realiza declaración de las mismas */
   let declaration = rest.map( ([_, id, __, val2]) => [id.value, val2] ); /* Ignoramos la coma y el igual */
   
-  declaration.forEach( (array) => { array[1] = undefined } ); /* eliminamos el null como valor de inicialiazión de la variable */
+  declaration.forEach( (array) => { /* eliminamos el null como valor de inicialiazión de la variable */
+    if(!array[1])
+      array[1] = undefined } 
+  ); 
                       
   return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
 }

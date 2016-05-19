@@ -12,7 +12,7 @@ function ejem(param1, param2) {
 	}
 
 	x = param2
-	return
+	return x
 };
 
 function ejem2() {
