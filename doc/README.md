@@ -9,4 +9,5 @@ analizador así como la sintaxis aceptada para cada tipo de sentencia y/o expres
 definida en el lenguaje.
 
 - ### [Asignaciones](assigns/)
+
 - ### [Declaracion de constantes](const/)
