@@ -6,6 +6,8 @@
         let emptyTable = {}; //  Creamos una tabla de símbolos vacía
         //  Hacemos un recorrido en preorden para construir la tabla
         eachBlockPre(tree, buildTable, emptyTable);
+        //  Retornamos la tabla de símbolos creada
+        return emptyTable;
     };
     
     //  Recorrido en preorden
@@ -48,6 +50,5 @@
             symbolTable[value] = 'not defined';
         }
     };
-    
     module.exports = semantic;
 })();
