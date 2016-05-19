@@ -74,21 +74,22 @@ module.exports = (function() {
                               
           return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
         },
-        peg$c4 = function(id, param1, rest, b, ret) { /* Evitamos ejemplo(, parametro) */
+        peg$c4 = function(id, param1, rest, b) { /* Evitamos ejemplo(, parametro) */
           
           let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
           if(param1) /* Si existe el primer parámetro */
             params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
             
-          let r = undefined; /* Nos aseguramos eliminar el null */
-          if(ret[1])
-            r = ret[1]
+          let ret = undefined; /* Contemplamos la posibilidad de que no exista el return */
+          let i = b.main.length - 1; /* Almacenamos la posición del último elemento, que se debería corresponder con el return si existe */
+          if(b.main[i].type = 'RETURN'); /* Si existe el return */
+            ret = b.main[i].children;
 
           return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
               type: 'FUNCTION',
               name: id,
               params: params, /* Array con los nombres de los parámetros */
-              ret: r
+              ret: ret
           }, b);
         },
         peg$c5 = function(s1, rest) { /* Sentencias, aceptando compuestas entre {} */
@@ -137,10 +138,10 @@ module.exports = (function() {
               
               return { 
                   type: 'RETURN', 
-                  children: a? [a] : [] 
+                  children: a? a : undefined 
                 };
             },
-        peg$c11 = function(i, e) { /* Asignaciones, ejemplo = 5 */
+        peg$c11 = function(i, e) { /* Asignaciones, ejemplo = 5; Punto y coma opcional */
                     
             return {
                 type: '=', 
@@ -448,7 +449,7 @@ module.exports = (function() {
     }
 
     function peg$parseblock() {
-      var s0, s1, s2, s3, s4;
+      var s0, s1, s2, s3, s4, s5;
 
       s0 = peg$currPos;
       s1 = peg$parseconstantDeclaration();
@@ -468,7 +469,12 @@ module.exports = (function() {
             s4 = peg$parsefunctionDeclaration();
           }
           if (s3 !== peg$FAILED) {
-            s4 = peg$parsestatement();
+            s4 = [];
+            s5 = peg$parsestatement();
+            while (s5 !== peg$FAILED) {
+              s4.push(s5);
+              s5 = peg$parsestatement();
+            }
             if (s4 !== peg$FAILED) {
               peg$savedPos = s0;
               s1 = peg$c1(s1, s2, s3, s4);
@@ -720,7 +726,7 @@ module.exports = (function() {
     }
 
     function peg$parsefunctionDeclaration() {
-      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13;
+      var s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11;
 
       s0 = peg$currPos;
       s1 = peg$parseFUNCTION();
@@ -786,45 +792,13 @@ module.exports = (function() {
                     if (s8 !== peg$FAILED) {
                       s9 = peg$parseblock();
                       if (s9 !== peg$FAILED) {
-                        s10 = peg$currPos;
-                        s11 = peg$parseRETURN();
-                        if (s11 !== peg$FAILED) {
-                          s12 = peg$parsevalue();
-                          if (s12 === peg$FAILED) {
-                            s12 = null;
-                          }
-                          if (s12 !== peg$FAILED) {
-                            s13 = peg$parseSEMICOLON();
-                            if (s13 !== peg$FAILED) {
-                              s11 = [s11, s12, s13];
-                              s10 = s11;
-                            } else {
-                              peg$currPos = s10;
-                              s10 = peg$FAILED;
-                            }
-                          } else {
-                            peg$currPos = s10;
-                            s10 = peg$FAILED;
-                          }
-                        } else {
-                          peg$currPos = s10;
-                          s10 = peg$FAILED;
-                        }
-                        if (s10 === peg$FAILED) {
-                          s10 = null;
-                        }
+                        s10 = peg$parseCR();
                         if (s10 !== peg$FAILED) {
-                          s11 = peg$parseCR();
+                          s11 = peg$parseSEMICOLON();
                           if (s11 !== peg$FAILED) {
-                            s12 = peg$parseSEMICOLON();
-                            if (s12 !== peg$FAILED) {
-                              peg$savedPos = s0;
-                              s1 = peg$c4(s2, s5, s6, s9, s10);
-                              s0 = s1;
-                            } else {
-                              peg$currPos = s0;
-                              s0 = peg$FAILED;
-                            }
+                            peg$savedPos = s0;
+                            s1 = peg$c4(s2, s5, s6, s9);
+                            s0 = s1;
                           } else {
                             peg$currPos = s0;
                             s0 = peg$FAILED;
@@ -1125,7 +1099,7 @@ module.exports = (function() {
                 s0 = peg$currPos;
                 s1 = peg$parseRETURN();
                 if (s1 !== peg$FAILED) {
-                  s2 = peg$parseassign();
+                  s2 = peg$parsevalue();
                   if (s2 === peg$FAILED) {
                     s2 = null;
                   }

@@ -31,7 +31,7 @@ program = b:block { /* Declaración de la estructura principal que contendrá a 
   return b;
 }
 
-block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:statement { 
+block = cD:constantDeclaration? vD:variableDeclaration? fD:functionDeclaration* st:statement* { 
 
   let constants = cD? cD : []; /* constanst puede estar vacía si no se realiza declaración de las mismas */
   let variables = vD? vD : []; /* variables puede estar vacía si no se realiza declaración de las mismas */ 
@@ -62,21 +62,22 @@ variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? fact
   return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
 }
 
-functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR CL b:block ret:(RETURN id:value? SEMICOLON)? CR SEMICOLON { /* Evitamos ejemplo(, parametro) */
+functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR CL b:block CR SEMICOLON { /* Evitamos ejemplo(, parametro) */
   
   let params = param1? [param1] : []; /* Puede estar vacío si no declaran parametros, o contener el primer parámetro */
   if(param1) /* Si existe el primer parámetro */
     params = params.concat(rest.map(([_, p]) => p)); /* Concatenamos con el primer parámetro anterior el resto, si los hubiese (ignoramos comas) */
     
-  let r = undefined; /* Nos aseguramos eliminar el null */
-  if(ret[1])
-    r = ret[1]
+  let ret = undefined; /* Contemplamos la posibilidad de que no exista el return */
+  let i = b.main.length - 1; /* Almacenamos la posición del último elemento, que se debería corresponder con el return si existe */
+  if(b.main[i].type = 'RETURN'); /* Si existe el return */
+    ret = b.main[i].children;
 
   return Object.assign({ /* Asignamos al objeto del bloque que la contiene, el nuevo tipo, es decir, FUNCTION */
       type: 'FUNCTION',
       name: id,
       params: params, /* Array con los nombres de los parámetros */
-      ret: r
+      ret: ret
   }, b);
 }
 
@@ -123,16 +124,16 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
           children: st
       };
     }
-  / RETURN a:assign? { /* Se permite únicamente el return */
+  / RETURN a:value? { /* Se permite únicamente el return */
       
       return { 
           type: 'RETURN', 
-          children: a? [a] : [] 
+          children: a? a : undefined 
         };
     }
   / assign
 
-assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
+assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5; Punto y coma opcional */
             
     return {
         type: '=', 
@@ -177,7 +178,7 @@ factor = NUMBER
             };
          }
 
-value = NUMBER
+value = NUMBER /* Permitidos identificadores y números únicamente */
        / ID
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
