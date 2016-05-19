@@ -27,6 +27,8 @@
 
 - #### [Despliegue en Heroku](www.google.es)
 
+- #### [Sentencias y expresiones aceptadas](doc/)
+
 - #### [Enlace al enunciado](https://campusvirtual.ull.es/1516/mod/page/view.php?id=195693)
 
 - #### [PL0](https://en.wikipedia.org/wiki/Recursive_descent_parser)
