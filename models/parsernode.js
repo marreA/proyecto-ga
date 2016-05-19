@@ -65,11 +65,16 @@ module.exports = (function() {
           
           return [[id.value, nu.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
         },
-        peg$c3 = function(id, val1, rest) { /* Permitimos la inicialización de las variables */ 
+        peg$c3 = function(id, val1, rest) {  /* Permitimos la inicialización de las variables */ 
           
-          let declaration = rest.map( ([_, id, __, val]) => [id.value, val.value] ); /* Ignoramos la coma y el igual */
+          var i;
+          let v1 = val1? val1 : undefined; /* val1 puede estar vacía si no se realiza declaración de las mismas */
+          let declaration = rest.map( ([_, id, __, val2]) => [id.value, val2] ); /* Ignoramos la coma y el igual */
+          
+          for(i = 0; i < declaration.length; i++)
+            declaration[i][1] = undefined;
                               
-          return [[id.value, val1.value]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
+          return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
         },
         peg$c4 = function(id, param1, rest, b) { /* Evitamos ejemplo(, parametro) */
           
@@ -158,7 +163,7 @@ module.exports = (function() {
                    
                   return { 
                       type: 'CALL',
-                      func: f,
+                      func: name,
                       arguments: array_arg.concat(rest.map(([_, exp]) => exp)) /* Concatenamos en el array con el resto de argumentos */
                   };
                  },
@@ -166,7 +171,7 @@ module.exports = (function() {
         peg$c17 = function(n) { 
                     return {
                         type: 'ARRAY', 
-                        size: n
+                        size: n.value
                     };
                  },
         peg$c18 = { type: "other", description: "( \t\n\r)" },

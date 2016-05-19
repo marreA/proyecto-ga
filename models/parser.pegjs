@@ -52,13 +52,17 @@ constantDeclaration = CONST id:ID ASSIGN nu:NUMBER rest:(COMMA ID ASSIGN NUMBER)
   return [[id.value, nu.value]].concat(declaration) /* El valor semántico será un array de parejas con los id y los valores de las constantes */
 }
 
-variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? factor?)* SEMICOLON { /* Permitimos la inicialización de las variables */ 
+variableDeclaration = VAR id:ID ASSIGN? val1:factor? rest:(COMMA ID ASSIGN? val2:factor?)* SEMICOLON {  /* Permitimos la inicialización de las variables */ 
   
-  let declaration = rest.map( ([_, id, __, val]) => [id.value, val.value] ); /* Ignoramos la coma y el igual */
+  var i;
+  let v1 = val1? val1 : undefined; /* val1 puede estar vacía si no se realiza declaración de las mismas */
+  let declaration = rest.map( ([_, id, __, val2]) => [id.value, val2] ); /* Ignoramos la coma y el igual */
+  
+  for(i = 0; i < declaration.length; i++) /* eliminamos el null como valor de inicialiazión de la variable */
+    declaration[i][1] = undefined;
                       
-  return [[id.value, val1.value]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
+  return [[id.value, v1]].concat(declaration) /* El valor semántico será un array de parejas con los nombres de las variables declaradas */
 }
-
 
 functionDeclaration = FUNCTION id:ID LEFTPAR !COMMA param1:ID? rest:(COMMA ID)* RIGHTPAR SEMICOLON b:block SEMICOLON { /* Evitamos ejemplo(, parametro) */
   
@@ -157,7 +161,7 @@ factor = NUMBER
            
           return { 
               type: 'CALL',
-              func: f,
+              func: name,
               arguments: array_arg.concat(rest.map(([_, exp]) => exp)) /* Concatenamos en el array con el resto de argumentos */
           };
          }
@@ -166,7 +170,7 @@ factor = NUMBER
        / LEFTSQBR n:NUMBER RIGHTSQBR { 
             return {
                 type: 'ARRAY', 
-                size: n
+                size: n.value
             };
          }
 
