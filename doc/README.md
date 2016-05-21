@@ -7,3 +7,5 @@
 A continuación se pasará a explicar con detalles las características de nuestro
 analizador así como la sintaxis aceptada para cada tipo de sentencia y/o expresión
 definida en el lenguaje.
+
+### [Acceso de la documentación](DOC.md)

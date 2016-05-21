@@ -1,7 +1,10 @@
 /*
  * PEGjs for a "Pl-0" like language
  * Pl-0 IMPLEMENTATION BY WIKIPEDIA
-*/
+ *    - Eduardo Escobar Alberto
+ *    - Daniel Fernández
+ *    - Alejandro Marrero Díaz
+ */
 
 {
   var tree = function(f, r) {
