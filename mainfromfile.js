@@ -8,8 +8,8 @@ require('module').Module._initPaths();
 var util = require('util');
 var fs = require('fs');
 var PEG = require("parsernode.js");
+var semantic = require("semantic");
 var fileName = process.argv[2] || 'tests/input5.pl0';
-
 const lineNumbers = (input) => {
   let count = 1;
   return input.replace(/^/mg, (x) => { 
@@ -26,6 +26,9 @@ fs.readFile(fileName, 'utf8', function (err,input) {
   try {
     var r = PEG.parse(input);
     console.log(util.inspect(r, {depth: null}));
+    semantic(r);
+    console.log("\n\n\Tabla de símbolos\n\n\n");
+     console.log(util.inspect(r, {depth: null}));
   } catch (e) {
     console.log(e);
   }
