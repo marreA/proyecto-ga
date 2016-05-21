@@ -10,7 +10,7 @@ function ejem(param1, param2) {
 		v1[i] = param1;
 		param2 = param1 + 3;
 	}
-
+	var str = "esto es una cadena"
 	x = v1
 	return x
 };

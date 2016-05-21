@@ -157,7 +157,7 @@ module.exports = (function() {
                     return {
                       type: '=',
                       left: i,
-                      right: s.value
+                      right: s
                     }
                 },
         peg$c14 = function(n, e) { /* Asignaciones, ejemplo[2] = 5 */

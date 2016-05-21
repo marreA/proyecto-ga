@@ -164,7 +164,7 @@ assign
             return {
               type: '=',
               left: i,
-              right: s.value
+              right: s
             }
         }
         
