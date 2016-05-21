@@ -263,6 +263,7 @@ FOR               = _ "for" _
 RETURN            = _ "return" _
 SEMICOLON         = _";"_
 COMMA             = _","_
+ARROW             = _ "=>" _
 QM                = _ '"' _
 STRING            = _ str:([a-zA-Z0-9_ ]*)_ { return str.join(""); }
 ID "identifier"   = _ id:$([a-zA-Z_][a-zA-Z_0-9]*) _ { return { type: 'ID', value: id }; }
