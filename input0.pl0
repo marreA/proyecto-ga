@@ -6,7 +6,7 @@ function ejem(param1, param2) {
 
 	var x;
 
-	for(i = 0; i < 2; i++) {
+	for(i = 0; i < 2; i+1) {
 		param1 = i;
 		param2 = param1;
 	}

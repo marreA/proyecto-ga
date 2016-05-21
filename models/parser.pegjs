@@ -117,18 +117,16 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
           children: st
       };
     }
-  / FOR LEFTPAR vc:assign SEMICOLON cond:condition SEMICOLON id3:ID op1:ADD ADD RIGHTPAR st:statement { /* Bucle FOR */
-
+  / FOR LEFTPAR i:assign SEMICOLON cond:condition SEMICOLON inc:statement RIGHTPAR st:statement { /* Bucle FOR */
       return {
           type: 'FOR',
-          variable: vc.left,
+          index: i.left,
           condition: cond.type,
-          increment: op1,
+          increment: inc,
           children: st
       };
     }
-  / RETURN a:assign? { /* Se permite únicamente el return */
-      
+  / RETURN a:assign? { /* Se permite únicamente el return */     
       return { 
           type: 'RETURN', 
           children: a? a : undefined 
