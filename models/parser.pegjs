@@ -134,7 +134,7 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
     }
   / assign
 
-assign = n:(i:ID ar:array) ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
+assign = n:(i:ID ar:array) ASSIGN e:condition { /* Asignaciones, ejemplo[2] = 5 */
             
           return {
             type: '=', 
@@ -142,7 +142,7 @@ assign = n:(i:ID ar:array) ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
             right: e
           }; 
         }
-        / i:ID ASSIGN e:condition { /* Asignaciones para array, ejemplo[2] = 5 */  
+        / i:ID ASSIGN e:condition { /* Asignaciones para array, ejemplo = 5 */  
 
           return {
             type: '=', 
