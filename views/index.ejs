@@ -1,42 +1,26 @@
-<div class="contenido_total">
-	<div class="titulo_practica">
-		<h1 align="center">
-			Proyecto Procesadores de Lenguajes
-		</h1>
-		<h2 align="center">PEGJS</h2>
-	</div>
-	<div class="contenido">
-		<table class="center" id="input">
-	 <tr><th>Introduzca la expresión a parsear</th></tr>
-	 <tr><th>Arrastre un fichero con la entrada hasta la zona de entrada</th></tr>
-	 <tr>
-		 <th>
-			 <textarea class = "drop_zone" autofocus="" cols = "80" rows = "5" id="original"></textarea>
-		 </th>
-		 <th>
-			 <button type="button" id="parse"> Parsear</button>
-		 </th>
-	 </tr>
-	 <tr>
-	 </tr>
-	 <tr>
-		 <th>
-				 Cargar archivo:
-				 <input type="file" class="inputfile" />
-		 </th>
-	 </tr>
-	 <tr>
-		 <th id="stored">
-			 <label for="Title">Introduzca el nombre del fichero: </label>
-			 <input id="Title" type="text" pattern="/^[^0-9]\w+\.csv$/"></input>
-			 <input id="save" type="submit"></input>
-		 </th>
-	 </tr>
-	 <tr>
-		 <th>
-			 <div id="buttons"></div>
-		 </th>
-	 </tr>
- </table>
-	</div>
-</div>
+    <div id="title"><h1>Analizador de PL0 Ampliado</h1></div>
+      <div class="row">
+        <div class="col-md-4" id="div-input">
+          <p id="title-input">Código</p></br>
+          <textarea class="drop_zone" autofocus="" cols="80" rows="5" id="original"></textarea>
+          <button type="button" id="parse">Parsear</button>
+          <div class="importar">Importar<div id="b-importar"><input type="file" class="inputfile"></input></div></div>
+        </div>
+        <div class="col-md-4" id="div-output">
+          <p id="title-output">Árbol</p></br>
+          <div id="pestanas">
+              <ul id="lista">
+                <li id="pestana1"><a href='javascript:change_tab(pestanas,pestana1);'>SINTÁCTICO</a></li>
+                <li id="pestana2"><a href='javascript:change_tab(pestanas,pestana2);'>SEMÁNTICO</a></li>
+              </ul>
+          </div>
+              <div id="contenidopestanas" ng-app="">
+                <div id="cpestana1">
+                  <div id="div-converted-sin"><span class="output" id="converted-sin"></span></div>
+                </div>
+                <div id="cpestana2" >
+                  <div id="div-converted-sem"><span class="output" id="converted-sem"></span></div>
+                </div>
+              </div>
+        </div>
+      </div>
