@@ -172,10 +172,14 @@ factor = NUMBER
          }
        / ID
        / LEFTPAR t:assign RIGHTPAR   { return t; }
-       / LEFTSQBR n:NUMBER RIGHTSQBR { 
-            return { /* [3+2,4,5*a, b = 4] */
+       / LEFTSQBR a1:assign? rest:(COMMA assign)* RIGHTSQBR {  /* Ejemplo de declaración de array: [3+2, 4, 5*a, b = 4]. Posibilidad de array vacío */
+
+          let arr = a1? [a1] : [];
+          if(a1) /* Si existe el primer assign */
+            arr = arr.concat(rest.map(([_, a]) => a)); /* Concatenamos con el primer assign anterior el resto, si los hubiese (ignoramos comas) */ 
+            return { 
                 type: 'ARRAY', 
-                size: n.value
+                values: arr
             };
          }
 

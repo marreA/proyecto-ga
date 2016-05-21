@@ -1,6 +1,6 @@
 const A = 4, 
       B = 30;
-var v1 = [3], v2 = 1, sol;
+var v1 = [3+2, 4, 5*A], v2 = 1, sol;
 
 function ejem(param1, param2) {
 

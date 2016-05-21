@@ -128,7 +128,6 @@ module.exports = (function() {
               };
             },
         peg$c9 = function(i, cond, inc, st) { /* Bucle FOR */
-
               return {
                   type: 'FOR',
                   index: i.left,
@@ -137,8 +136,7 @@ module.exports = (function() {
                   children: st
               };
             },
-        peg$c10 = function(a) { /* Se permite únicamente el return */
-              
+        peg$c10 = function(a) { /* Se permite únicamente el return */     
               return { 
                   type: 'RETURN', 
                   children: a? a : undefined 
@@ -175,10 +173,14 @@ module.exports = (function() {
                   };
                  },
         peg$c16 = function(t) { return t; },
-        peg$c17 = function(n) { 
-                    return { /* [3+2,4,5*a, b = 4] */
+        peg$c17 = function(a1, rest) {  /* Ejemplo de declaración de array: [3+2, 4, 5*a, b = 4]. Posibilidad de array vacío */
+
+                  let arr = a1? [a1] : [];
+                  if(a1) /* Si existe el primer assign */
+                    arr = arr.concat(rest.map(([_, a]) => a)); /* Concatenamos con el primer assign anterior el resto, si los hubiese (ignoramos comas) */ 
+                    return { 
                         type: 'ARRAY', 
-                        size: n.value
+                        values: arr
                     };
                  },
         peg$c18 = { type: "other", description: "( \t\n\r)" },
@@ -1398,13 +1400,55 @@ module.exports = (function() {
               s0 = peg$currPos;
               s1 = peg$parseLEFTSQBR();
               if (s1 !== peg$FAILED) {
-                s2 = peg$parseNUMBER();
+                s2 = peg$parseassign();
+                if (s2 === peg$FAILED) {
+                  s2 = null;
+                }
                 if (s2 !== peg$FAILED) {
-                  s3 = peg$parseRIGHTSQBR();
+                  s3 = [];
+                  s4 = peg$currPos;
+                  s5 = peg$parseCOMMA();
+                  if (s5 !== peg$FAILED) {
+                    s6 = peg$parseassign();
+                    if (s6 !== peg$FAILED) {
+                      s5 = [s5, s6];
+                      s4 = s5;
+                    } else {
+                      peg$currPos = s4;
+                      s4 = peg$FAILED;
+                    }
+                  } else {
+                    peg$currPos = s4;
+                    s4 = peg$FAILED;
+                  }
+                  while (s4 !== peg$FAILED) {
+                    s3.push(s4);
+                    s4 = peg$currPos;
+                    s5 = peg$parseCOMMA();
+                    if (s5 !== peg$FAILED) {
+                      s6 = peg$parseassign();
+                      if (s6 !== peg$FAILED) {
+                        s5 = [s5, s6];
+                        s4 = s5;
+                      } else {
+                        peg$currPos = s4;
+                        s4 = peg$FAILED;
+                      }
+                    } else {
+                      peg$currPos = s4;
+                      s4 = peg$FAILED;
+                    }
+                  }
                   if (s3 !== peg$FAILED) {
-                    peg$savedPos = s0;
-                    s1 = peg$c17(s2);
-                    s0 = s1;
+                    s4 = peg$parseRIGHTSQBR();
+                    if (s4 !== peg$FAILED) {
+                      peg$savedPos = s0;
+                      s1 = peg$c17(s2, s3);
+                      s0 = s1;
+                    } else {
+                      peg$currPos = s0;
+                      s0 = peg$FAILED;
+                    }
                   } else {
                     peg$currPos = s0;
                     s0 = peg$FAILED;
