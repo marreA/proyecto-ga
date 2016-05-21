@@ -127,7 +127,7 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
           children: st
       };
     }
-  / RETURN a:value? { /* Se permite únicamente el return */
+  / RETURN a:assign? { /* Se permite únicamente el return */
       
       return { 
           type: 'RETURN', 
@@ -175,14 +175,11 @@ factor = NUMBER
        / ID
        / LEFTPAR t:assign RIGHTPAR   { return t; }
        / LEFTSQBR n:NUMBER RIGHTSQBR { 
-            return {
+            return { /* [3+2,4,5*a, b = 4] */
                 type: 'ARRAY', 
                 size: n.value
             };
          }
-
-value = NUMBER /* Permitidos identificadores y números únicamente */
-       / ID
 
 /* -----------> DECLARACIÓN DE LOS TOKENS */
 

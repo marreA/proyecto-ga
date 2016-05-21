@@ -22,7 +22,7 @@ function ejem2() {
 
   	result = ejem(v5, v6)
 
-  	while (result < H) do {
+  	while result < H do {
  		result = result + v6
 	}
 

@@ -176,7 +176,7 @@ module.exports = (function() {
                  },
         peg$c16 = function(t) { return t; },
         peg$c17 = function(n) { 
-                    return {
+                    return { /* [3+2,4,5*a, b = 4] */
                         type: 'ARRAY', 
                         size: n.value
                     };
@@ -1102,7 +1102,7 @@ module.exports = (function() {
                 s0 = peg$currPos;
                 s1 = peg$parseRETURN();
                 if (s1 !== peg$FAILED) {
-                  s2 = peg$parsevalue();
+                  s2 = peg$parseassign();
                   if (s2 === peg$FAILED) {
                     s2 = null;
                   }
@@ -1432,17 +1432,6 @@ module.exports = (function() {
             }
           }
         }
-      }
-
-      return s0;
-    }
-
-    function peg$parsevalue() {
-      var s0;
-
-      s0 = peg$parseNUMBER();
-      if (s0 === peg$FAILED) {
-        s0 = peg$parseID();
       }
 
       return s0;
