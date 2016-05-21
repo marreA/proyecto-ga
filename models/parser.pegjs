@@ -134,15 +134,23 @@ statement = CL s1:statement? rest:(SEMICOLON statement)* SEMICOLON* CR { /* Sent
     }
   / assign
 
-assign = i:ID ASSIGN e:condition { /* Asignaciones, ejemplo = 5; Punto y coma opcional */
+assign = n:(i:ID ar:array) ASSIGN e:condition { /* Asignaciones, ejemplo = 5 */
             
-    return {
-        type: '=', 
-        left: i, 
-        right: e
-    }; 
-}
-/ condition
+          return {
+            type: '=', 
+            left: n, 
+            right: e
+          }; 
+        }
+        / i:ID ASSIGN e:condition { /* Asignaciones para array, ejemplo[2] = 5 */  
+
+          return {
+            type: '=', 
+            left: i, 
+            right: e
+          }; 
+        }  
+        / condition
 					 
 condition	= l:exp op:COND r:exp { /* Condiciones */
 
@@ -172,11 +180,13 @@ factor = NUMBER
          }
        / ID
        / LEFTPAR t:assign RIGHTPAR   { return t; }
-       / LEFTSQBR a1:assign? rest:(COMMA assign)* RIGHTSQBR {  /* Ejemplo de declaración de array: [3+2, 4, 5*a, b = 4]. Posibilidad de array vacío */
+       / array
 
-          let arr = a1? [a1] : [];
-          if(a1) /* Si existe el primer assign */
-            arr = arr.concat(rest.map(([_, a]) => a)); /* Concatenamos con el primer assign anterior el resto, si los hubiese (ignoramos comas) */ 
+array = LEFTSQBR a1:assign? rest:(COMMA assign)* RIGHTSQBR {  /* Ejemplo de declaración de array: [3+2, 4, 5*a, b = 4]. Posibilidad de array vacío */
+
+        let arr = a1? [a1] : [];
+        if(a1) /* Si existe el primer assign */
+          arr = arr.concat(rest.map(([_, a]) => a)); /* Concatenamos con el primer assign anterior el resto, si los hubiese (ignoramos comas) */ 
             return { 
                 type: 'ARRAY', 
                 values: arr

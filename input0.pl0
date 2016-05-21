@@ -1,17 +1,17 @@
 const A = 4, 
       B = 30;
-var v1 = [3+2, 4, 5*A], v2 = 1, sol;
+var v1 = [5*A], v2 = 1, sol;
 
 function ejem(param1, param2) {
 
 	var x;
 
 	for(i = 0; i < 2; i+1) {
-		param1 = i;
-		param2 = param1;
+		v1[i] = param1;
+		param2 = param1 + 3;
 	}
 
-	x = param2
+	x = v1
 	return x
 };
 
