@@ -35,6 +35,8 @@
         block.constants.forEach((constant) => insertSymbol(constant, block.symbolTable));
         //  Añadimos el identificador de cada función dentro de la tabla de símbolos
         block.functions.forEach((func) => insertSymbol(func.name.value, block.symbolTable));
+        //  Añadimos los paramentros de la funcion
+        block.functions.forEach((param) => insertSymbol(param, block.symbolTable));
     };
     
     //  Creamos el método que nos permite insertar un símbolo dentro de la tabla de símbolos
