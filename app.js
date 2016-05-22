@@ -22,6 +22,7 @@ const semantic =  require('./models/semantic');
 
 //	Definimos la ruta para el parser
 app.get('/parser', (req,resp) =>{
+    console.log("PARSEANDO");
 	resp.send({"tree" :  PEG.parse(req.query.input)});
 });
 

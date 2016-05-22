@@ -42,6 +42,7 @@ $(document).ready(() => {
     $.get("/parser",
       { input: original.value },
       createTree,
+      'json'
     );
   });
 	 // Setup the drag and drop listeners.
@@ -52,4 +53,4 @@ $(document).ready(() => {
 	 let inputFile = $('.inputfile')[0];
 	 inputFile.addEventListener('change', handleFileSelect, false);
  });
-});
+})();

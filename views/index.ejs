@@ -1,3 +1,4 @@
+<div>    
     <div id="title"><h1>Analizador de PL0 Ampliado</h1></div>
       <div class="row">
         <div class="col-md-4" id="div-input">
@@ -8,15 +9,7 @@
         </div>
         <div class="col-md-4" id="div-output">
           <p id="title-output">Árbol</p></br>
-          <div id="pestanas">
-              <ul id="lista">
-                <li id="tree"><a href='javascript:change_tab(pestanas,tree);'>SINTÁCTICO</a></li>
-                <li id="symbolTable"><a href='javascript:change_tab(pestanas,symbolTable);'>SEMÁNTICO</a></li>
-              </ul>
-          </div>
-              <div id="contenidopestanas" ng-app="">
-                <div id="cTree"><span class="output"></span></div></div>
-                <div id="csymbolTable"><span class="output"></span></div></div>
-              </div>
+          <div class="output" id="tree"></div>
         </div>
       </div>
+</div>
