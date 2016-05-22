@@ -1,22 +1,8 @@
 (() =>{
 	"use strict";
-const resultTemplate =`
-<div class="contenido">
-      <table class="center" id="result">
-          <% _.each(rows, (row) => { %>
-          <tr class="<%=row.type%>">
-              <% _.each(row.items, (name) =>{ %>
-              <td><%= name %></td>
-              <% }); %>
-          </tr>
-          <% }); %>
-      </table>
-  </p>
-</div>
-`;
 //	Creamos el arbol con la salida del parser
 const createTree = (data) => {
-  $("#cTree").html(_.template(resultTemplate, { rows: data.rows })); 
+  $("#tree").text(data); 
 };
 
 //	Cargar un fichero en el textarea

@@ -27,7 +27,7 @@ app.get('/parser', (req,resp) =>{
     let tree = PEG.parse(req.query.input);
     console.log("Arbol resultante");
     console.log(tree);
-	resp.send({"tree" :  PEG.parse(req.query.input)});
+	resp.send({"tree" : tree});
 });
 
 app.listen(app.get('port'),() =>{
