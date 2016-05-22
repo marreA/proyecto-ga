@@ -2,7 +2,7 @@
 	"use strict";
 //	Creamos el arbol con la salida del parser
 const createTree = (data) => {
-  $("#tree").text(data); 
+  $("#tree").html(JSON.stringify(data.tree, undefined, 2)); 
 };
 
 //	Cargar un fichero en el textarea
