@@ -22,11 +22,8 @@ const semantic =  require('./models/semantic');
 
 //	Definimos la ruta para el parser
 app.get('/parser', (req,resp) =>{
-    console.log("PARSEANDO");
-    console.log(req.query.input);
+    //  Obtenemos el árbol de análisis sintáctico
     let tree = PEG.parse(req.query.input);
-    console.log("Arbol resultante");
-    console.log(tree);
 	resp.send({"tree" : tree});
 });
 
