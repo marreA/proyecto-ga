@@ -25,7 +25,7 @@
 
 ### Enlaces de interés
 
-- #### [Despliegue en Heroku](www.google.es)
+- #### [Despliegue en Heroku](https://pl0-parse-eda.herokuapp.com/)
 
 - #### [Sentencias y expresiones aceptadas](doc/)
 
